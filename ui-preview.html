@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pratinjau UI/UX — Portal Data Lampung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: { DEFAULT: '#0E1B2B', 2: '#16283D' },
+          paper: '#F7F5EF',
+          gold: { DEFAULT: '#C89B3C', light: '#E4C878' },
+          teal: { DEFAULT: '#1F7A6C' },
+          inktext: '#1B2430',
+          muted: '#6B7280',
+          danger: '#C4453D',
+          success: '#2F855A',
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          body: ['"Inter"', 'sans-serif'],
+          mono: ['"IBM Plex Mono"', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  body { font-family: 'Inter', sans-serif; background:#F7F5EF; }
+  .panel { background:#fff; border:1px solid #E7E2D6; border-left:3px solid #C89B3C; }
+  .tabbtn.active { background:#0E1B2B; color:#fff; }
+  .screen { display:none; }
+  .screen.active { display:block; }
+  code, .mono { font-family: 'IBM Plex Mono', monospace; }
+</style>
+</head>
+<body class="text-inktext">
+
+<!-- ============ NAV UNTUK GANTI PRATINJAU LAYAR ============ -->
+<div class="sticky top-0 z-50 bg-ink text-white px-4 sm:px-8 py-3 flex flex-wrap items-center gap-2">
+  <span class="font-display font-semibold mr-3">Pratinjau UI —</span>
+  <button class="tabbtn active px-3 py-1.5 rounded-sm text-xs font-medium border border-white/20" onclick="showScreen('login')">Masuk</button>
+  <button class="tabbtn px-3 py-1.5 rounded-sm text-xs font-medium border border-white/20" onclick="showScreen('dashboard')">Ringkasan</button>
+  <button class="tabbtn px-3 py-1.5 rounded-sm text-xs font-medium border border-white/20" onclick="showScreen('apikeys')">API Key</button>
+  <button class="tabbtn px-3 py-1.5 rounded-sm text-xs font-medium border border-white/20" onclick="showScreen('data')">Jelajah Data</button>
+  <button class="tabbtn px-3 py-1.5 rounded-sm text-xs font-medium border border-white/20" onclick="showScreen('docs')">Dokumentasi</button>
+  <button class="tabbtn px-3 py-1.5 rounded-sm text-xs font-medium border border-white/20" onclick="showScreen('tickets')">Tiket</button>
+</div>
+
+<!-- ============ LOGIN ============ -->
+<section id="screen-login" class="screen active">
+  <div class="min-h-[640px] flex bg-ink">
+    <div class="hidden md:flex flex-col justify-between w-1/2 p-14 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-[0.07]" style="background-image: repeating-linear-gradient(135deg, #C89B3C 0 2px, transparent 2px 28px);"></div>
+      <div class="relative">
+        <p class="text-gold font-display font-semibold text-2xl">Portal Data Lampung</p>
+        <p class="text-white/50 text-sm mt-1">Diskominfotik Provinsi Lampung</p>
+      </div>
+      <div class="relative max-w-md">
+        <p class="font-display text-white text-3xl leading-snug">Satu pintu akses data statistik daerah untuk OPD, akademisi, dan publik.</p>
+        <p class="text-white/50 text-sm mt-4">Kependudukan, ekonomi, ketenagakerjaan, kemiskinan, pendidikan, dan kesehatan — terdokumentasi, terpantau, dan siap dipakai lewat API.</p>
+      </div>
+      <p class="relative text-white/30 text-xs">© 2026 Pemerintah Provinsi Lampung</p>
+    </div>
+    <div class="flex-1 bg-paper flex items-center justify-center p-6">
+      <div class="w-full max-w-sm">
+        <h2 class="font-display text-2xl font-semibold mb-1">Masuk ke dashboard</h2>
+        <p class="text-sm text-muted mb-6">Kelola API Key dan lihat pemakaian Anda.</p>
+        <div class="space-y-4">
+          <div><label class="block text-sm font-medium mb-1">Email</label>
+            <div class="w-full border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm bg-white text-muted">nama@instansi.go.id</div></div>
+          <div><label class="block text-sm font-medium mb-1">Kata sandi</label>
+            <div class="w-full border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm bg-white text-muted">••••••••</div></div>
+          <div class="w-full bg-ink text-white py-2.5 rounded-sm text-sm font-medium text-center">Masuk</div>
+        </div>
+        <p class="text-sm text-muted mt-6">Belum punya akun? <span class="text-teal font-medium">Daftar di sini</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHARED APP SHELL WRAPPER FOR DASHBOARD-LIKE SCREENS ============ -->
+<template id="shell-template"></template>
+
+<!-- ============ DASHBOARD ============ -->
+<section id="screen-dashboard" class="screen">
+  <div class="flex min-h-[640px]">
+    <aside class="hidden lg:flex flex-col w-64 bg-ink text-white shrink-0">
+      <div class="px-6 py-6 border-b border-white/10">
+        <p class="font-display font-semibold text-lg leading-tight">Portal Data<br/>Lampung</p>
+        <p class="text-xs text-white/50 mt-1">Diskominfotik Prov. Lampung</p>
+      </div>
+      <nav class="flex-1 py-4 text-sm">
+        <div class="flex items-center gap-3 px-6 py-3 bg-white/10 text-gold border-l-4 border-gold font-medium">◧ Ringkasan</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70 border-l-4 border-transparent">⚿ API Key Saya</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70 border-l-4 border-transparent">⌗ Jelajah Data</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70 border-l-4 border-transparent">&lt;/&gt; Dokumentasi API</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70 border-l-4 border-transparent">✎ Permintaan Data</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70 border-l-4 border-transparent">⇄ Webhook</div>
+      </nav>
+    </aside>
+    <div class="flex-1 bg-paper">
+      <header class="bg-paper/95 border-b border-[#E7E2D6] px-8 py-4 flex items-center justify-between">
+        <h1 class="font-display font-semibold text-xl">Ringkasan Pemakaian</h1>
+        <div class="flex items-center gap-3">
+          <span class="text-xs px-2.5 py-1 rounded-sm bg-teal/10 text-teal font-medium">Dinas/OPD</span>
+          <div class="text-right"><p class="text-sm font-medium leading-tight">Rina Kartika</p><p class="text-xs text-muted">Dinas Kesehatan Provinsi Lampung</p></div>
+        </div>
+      </header>
+      <main class="p-8 space-y-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="panel rounded-sm p-5"><p class="text-xs text-muted mb-1">API Key Aktif</p><p class="font-display text-2xl font-semibold">3</p></div>
+          <div class="panel rounded-sm p-5"><p class="text-xs text-muted mb-1">Total Request</p><p class="font-display text-2xl font-semibold">18.204</p></div>
+          <div class="panel rounded-sm p-5"><p class="text-xs text-muted mb-1">Request Gagal</p><p class="font-display text-2xl font-semibold text-danger">42</p></div>
+          <div class="panel rounded-sm p-5"><p class="text-xs text-muted mb-1">Tingkat Sukses</p><p class="font-display text-2xl font-semibold text-teal">99.8%</p></div>
+        </div>
+        <div class="panel rounded-sm p-6">
+          <h3 class="font-display font-semibold mb-4">Request 7 hari terakhir</h3>
+          <svg viewBox="0 0 600 160" class="w-full h-40">
+            <polyline points="0,120 90,100 180,110 270,60 360,80 450,40 540,55" fill="none" stroke="#1F7A6C" stroke-width="3"/>
+            <g fill="#1F7A6C"><circle cx="0" cy="120" r="4"/><circle cx="90" cy="100" r="4"/><circle cx="180" cy="110" r="4"/><circle cx="270" cy="60" r="4"/><circle cx="360" cy="80" r="4"/><circle cx="450" cy="40" r="4"/><circle cx="540" cy="55" r="4"/></g>
+          </svg>
+        </div>
+        <div class="panel rounded-sm p-6">
+          <h3 class="font-display font-semibold mb-4">Riwayat request terbaru</h3>
+          <table class="w-full text-sm">
+            <thead><tr class="text-left text-xs text-muted uppercase border-b border-[#EFEBE0]"><th class="py-2">Waktu</th><th class="py-2">Endpoint</th><th class="py-2">Status</th></tr></thead>
+            <tbody>
+              <tr class="border-b border-[#F3EFE4]"><td class="py-2 mono text-xs">06/09/2026 09:12</td><td class="py-2 mono text-xs">/api/v1/stats</td><td class="py-2 text-success font-medium">200</td></tr>
+              <tr class="border-b border-[#F3EFE4]"><td class="py-2 mono text-xs">06/09/2026 09:10</td><td class="py-2 mono text-xs">/api/v1/stats</td><td class="py-2 text-success font-medium">200</td></tr>
+              <tr><td class="py-2 mono text-xs">06/09/2026 09:07</td><td class="py-2 mono text-xs">/api/v1/meta</td><td class="py-2 text-danger font-medium">429</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- ============ API KEYS ============ -->
+<section id="screen-apikeys" class="screen">
+  <div class="flex min-h-[640px]">
+    <aside class="hidden lg:flex flex-col w-64 bg-ink text-white shrink-0">
+      <div class="px-6 py-6 border-b border-white/10"><p class="font-display font-semibold text-lg">Portal Data<br/>Lampung</p></div>
+      <nav class="flex-1 py-4 text-sm">
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">◧ Ringkasan</div>
+        <div class="flex items-center gap-3 px-6 py-3 bg-white/10 text-gold border-l-4 border-gold font-medium">⚿ API Key Saya</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">⌗ Jelajah Data</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">&lt;/&gt; Dokumentasi API</div>
+      </nav>
+    </aside>
+    <div class="flex-1 bg-paper p-8 space-y-6">
+      <h1 class="font-display font-semibold text-xl">API Key Saya</h1>
+      <div class="panel rounded-sm p-6">
+        <h3 class="font-display font-semibold mb-3">Buat API Key baru</h3>
+        <div class="flex gap-3">
+          <div class="flex-1 border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm text-muted bg-white">Label, mis. 'Dashboard Monitoring Dinas Kesehatan'</div>
+          <div class="bg-ink text-white px-5 py-2 rounded-sm text-sm font-medium">Buat API Key</div>
+        </div>
+      </div>
+      <div class="panel rounded-sm p-6 space-y-4">
+        <h3 class="font-display font-semibold">Daftar API Key</h3>
+        <div class="border border-[#EFEBE0] rounded-sm p-4">
+          <div class="flex items-center justify-between mb-2"><p class="font-medium text-sm">Dashboard Monitoring DBD</p><span class="text-xs px-2.5 py-0.5 rounded-sm bg-[#E7F4F0] text-teal font-medium">Aktif</span></div>
+          <div class="flex items-center gap-2 mb-3"><code class="mono text-xs bg-[#F3EFE4] px-2 py-1 rounded-sm">lpg_8f2a91c4d0e7b6a5f31c...</code><span class="text-xs text-teal font-medium">Salin</span></div>
+          <p class="text-xs text-muted">Peran: dinas · Batas 180 req/menit · Terpakai: 4.208x</p>
+        </div>
+        <div class="border border-[#EFEBE0] rounded-sm p-4">
+          <div class="flex items-center justify-between mb-2"><p class="font-medium text-sm">Uji Coba Publik</p><span class="text-xs px-2.5 py-0.5 rounded-sm bg-[#FBEAE9] text-danger font-medium">Nonaktif</span></div>
+          <div class="flex items-center gap-2 mb-3"><code class="mono text-xs bg-[#F3EFE4] px-2 py-1 rounded-sm">lpg_11ba4477c9e2f0aa9812...</code><span class="text-xs text-teal font-medium">Salin</span></div>
+          <p class="text-xs text-muted">Peran: dinas · Batas 180 req/menit · Terpakai: 12x</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DATA EXPLORER ============ -->
+<section id="screen-data" class="screen">
+  <div class="flex min-h-[640px]">
+    <aside class="hidden lg:flex flex-col w-64 bg-ink text-white shrink-0">
+      <div class="px-6 py-6 border-b border-white/10"><p class="font-display font-semibold text-lg">Portal Data<br/>Lampung</p></div>
+      <nav class="flex-1 py-4 text-sm">
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">◧ Ringkasan</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">⚿ API Key Saya</div>
+        <div class="flex items-center gap-3 px-6 py-3 bg-white/10 text-gold border-l-4 border-gold font-medium">⌗ Jelajah Data</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">&lt;/&gt; Dokumentasi API</div>
+      </nav>
+    </aside>
+    <div class="flex-1 bg-paper p-8 space-y-6">
+      <h1 class="font-display font-semibold text-xl">Jelajah Data Statistik</h1>
+      <div class="panel rounded-sm p-6">
+        <div class="grid sm:grid-cols-4 gap-3 mb-4">
+          <div><p class="text-xs font-medium text-muted mb-1">Kabupaten/Kota</p><div class="border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm bg-white">Lampung Selatan</div></div>
+          <div><p class="text-xs font-medium text-muted mb-1">Kategori</p><div class="border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm bg-white">Kesehatan</div></div>
+          <div><p class="text-xs font-medium text-muted mb-1">Tahun</p><div class="border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm bg-white">2025</div></div>
+          <div><p class="text-xs font-medium text-muted mb-1">Bulan</p><div class="border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm bg-white">Semua</div></div>
+        </div>
+        <div class="flex gap-3">
+          <div class="bg-ink text-white px-5 py-2 rounded-sm text-sm font-medium">Terapkan Filter</div>
+          <div class="border border-[#D8D2C2] px-4 py-2 rounded-sm text-sm font-medium">Unduh CSV</div>
+          <div class="border border-[#D8D2C2] px-4 py-2 rounded-sm text-sm font-medium">Unduh XLSX</div>
+        </div>
+      </div>
+      <div class="panel rounded-sm p-6">
+        <h3 class="font-display font-semibold mb-4">Hasil (60 baris)</h3>
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-xs text-muted uppercase border-b border-[#EFEBE0]"><th class="py-2">Wilayah</th><th class="py-2">Indikator</th><th class="py-2">Periode</th><th class="py-2">Nilai</th><th class="py-2">Sensitivitas</th></tr></thead>
+          <tbody>
+            <tr class="border-b border-[#F3EFE4]"><td class="py-2">Lampung Selatan</td><td class="py-2">Angka Harapan Hidup</td><td class="py-2">7/2025</td><td class="py-2 mono">70.4 tahun</td><td class="py-2"><span class="text-xs px-2 py-0.5 rounded-sm bg-[#E7F4F0] text-teal">public</span></td></tr>
+            <tr class="border-b border-[#F3EFE4]"><td class="py-2">Lampung Selatan</td><td class="py-2">Angka Harapan Hidup</td><td class="py-2">4/2025</td><td class="py-2 mono">70.1 tahun</td><td class="py-2"><span class="text-xs px-2 py-0.5 rounded-sm bg-[#E7F4F0] text-teal">public</span></td></tr>
+            <tr><td class="py-2">Lampung Selatan</td><td class="py-2">Angka Harapan Hidup</td><td class="py-2">1/2025</td><td class="py-2 mono">69.9 tahun</td><td class="py-2"><span class="text-xs px-2 py-0.5 rounded-sm bg-[#E7F4F0] text-teal">public</span></td></tr>
+          </tbody>
+        </table>
+        <div class="flex items-center justify-center gap-3 mt-4 text-sm text-muted">
+          <span class="px-3 py-1 border border-[#D8D2C2] rounded-sm opacity-40">← Sebelumnya</span>
+          <span>Halaman 1 dari 6</span>
+          <span class="px-3 py-1 border border-[#D8D2C2] rounded-sm">Berikutnya →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOCS ============ -->
+<section id="screen-docs" class="screen">
+  <div class="flex min-h-[640px]">
+    <aside class="hidden lg:flex flex-col w-64 bg-ink text-white shrink-0">
+      <div class="px-6 py-6 border-b border-white/10"><p class="font-display font-semibold text-lg">Portal Data<br/>Lampung</p></div>
+      <nav class="flex-1 py-4 text-sm">
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">◧ Ringkasan</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">⚿ API Key Saya</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">⌗ Jelajah Data</div>
+        <div class="flex items-center gap-3 px-6 py-3 bg-white/10 text-gold border-l-4 border-gold font-medium">&lt;/&gt; Dokumentasi API</div>
+      </nav>
+    </aside>
+    <div class="flex-1 bg-paper p-8 space-y-6">
+      <h1 class="font-display font-semibold text-xl">Dokumentasi API Interaktif</h1>
+      <div class="panel rounded-sm p-4 text-sm">Klik <strong>Authorize</strong>, isi API Key Anda, lalu gunakan <strong>Try it out</strong> untuk mencoba setiap endpoint tanpa menulis kode.</div>
+      <div class="bg-white rounded-sm border border-[#E7E2D6] p-5">
+        <div class="flex items-center justify-between mb-4">
+          <p class="font-display font-semibold">Portal API Data Statistik — v1.0.0</p>
+          <span class="border border-ink px-3 py-1 rounded-sm text-xs font-medium">Authorize 🔒</span>
+        </div>
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 border border-[#E7E2D6] rounded-sm px-4 py-2.5">
+            <span class="bg-teal/10 text-teal text-xs font-mono font-semibold px-2 py-1 rounded-sm">GET</span>
+            <span class="mono text-sm">/api/v1/stats</span>
+            <span class="text-xs text-muted ml-auto">Ambil data statistik dengan filter</span>
+          </div>
+          <div class="flex items-center gap-3 border border-[#E7E2D6] rounded-sm px-4 py-2.5">
+            <span class="bg-teal/10 text-teal text-xs font-mono font-semibold px-2 py-1 rounded-sm">GET</span>
+            <span class="mono text-sm">/api/v1/meta</span>
+            <span class="text-xs text-muted ml-auto">Daftar wilayah & kategori</span>
+          </div>
+          <div class="flex items-center gap-3 border border-[#E7E2D6] rounded-sm px-4 py-2.5">
+            <span class="bg-gold/20 text-[#9A6B10] text-xs font-mono font-semibold px-2 py-1 rounded-sm">POST</span>
+            <span class="mono text-sm">/api/keys</span>
+            <span class="text-xs text-muted ml-auto">Buat API Key baru</span>
+          </div>
+          <div class="flex items-center gap-3 border border-[#E7E2D6] rounded-sm px-4 py-2.5">
+            <span class="bg-gold/20 text-[#9A6B10] text-xs font-mono font-semibold px-2 py-1 rounded-sm">POST</span>
+            <span class="mono text-sm">/api/tickets</span>
+            <span class="text-xs text-muted ml-auto">Ajukan permintaan data baru</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TICKETS ============ -->
+<section id="screen-tickets" class="screen">
+  <div class="flex min-h-[640px]">
+    <aside class="hidden lg:flex flex-col w-64 bg-ink text-white shrink-0">
+      <div class="px-6 py-6 border-b border-white/10"><p class="font-display font-semibold text-lg">Portal Data<br/>Lampung</p></div>
+      <nav class="flex-1 py-4 text-sm">
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">◧ Ringkasan</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">⚿ API Key Saya</div>
+        <div class="flex items-center gap-3 px-6 py-3 text-white/70">⌗ Jelajah Data</div>
+        <div class="flex items-center gap-3 px-6 py-3 bg-white/10 text-gold border-l-4 border-gold font-medium">✎ Permintaan Data</div>
+      </nav>
+    </aside>
+    <div class="flex-1 bg-paper p-8 space-y-6">
+      <h1 class="font-display font-semibold text-xl">Permintaan Data Baru</h1>
+      <div class="panel rounded-sm p-6 space-y-4">
+        <h3 class="font-display font-semibold">Data yang dicari belum tersedia?</h3>
+        <div class="border border-[#D8D2C2] rounded-sm px-3 py-2 text-sm text-muted bg-white">Judul permintaan, mis. 'Data lalu lintas kendaraan per kecamatan'</div>
+        <div class="bg-ink text-white px-5 py-2 rounded-sm text-sm font-medium w-fit">Kirim Permintaan</div>
+      </div>
+      <div class="panel rounded-sm p-6 space-y-3">
+        <h3 class="font-display font-semibold mb-2">Tiket Saya</h3>
+        <div class="border border-[#EFEBE0] rounded-sm p-4">
+          <div class="flex items-center justify-between mb-1"><p class="font-medium text-sm">Data curah hujan bulanan per kecamatan</p><span class="text-xs px-2.5 py-0.5 rounded-sm bg-[#FDF3DC] text-[#9A6B10] font-medium">Diproses</span></div>
+          <p class="text-sm text-muted">Dibutuhkan untuk pemodelan risiko banjir wilayah pesisir.</p>
+        </div>
+        <div class="border border-[#EFEBE0] rounded-sm p-4">
+          <div class="flex items-center justify-between mb-1"><p class="font-medium text-sm">Data realisasi vaksinasi anak per puskesmas</p><span class="text-xs px-2.5 py-0.5 rounded-sm bg-[#E7F4F0] text-teal font-medium">Selesai</span></div>
+          <p class="text-sm text-muted">Untuk laporan evaluasi program kesehatan triwulan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+    document.querySelectorAll('.tabbtn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

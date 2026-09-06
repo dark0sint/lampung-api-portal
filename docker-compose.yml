@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  api:
+    build: ./server
+    container_name: lampung-api
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - JWT_SECRET=${JWT_SECRET:-ganti-secret-produksi}
+      - CORS_ORIGIN=*
+    volumes:
+      - api_data:/app/data
+
+  web:
+    build: ./client
+    container_name: lampung-web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+volumes:
+  api_data:

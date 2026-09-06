@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+body { -webkit-font-smoothing: antialiased; }
+
+.section-panel {
+  background: #FFFFFF;
+  border: 1px solid #E7E2D6;
+  border-left: 3px solid #C89B3C;
+}
+
+.badge-active { background: #E7F4F0; color: #1F7A6C; }
+.badge-revoked { background: #FBEAE9; color: #C4453D; }
+.badge-open { background: #FBEAE9; color: #C4453D; }
+.badge-progress { background: #FDF3DC; color: #9A6B10; }
+.badge-done { background: #E7F4F0; color: #1F7A6C; }
+
+.focus-ring:focus-visible {
+  outline: 2px solid #C89B3C;
+  outline-offset: 2px;
+}
+
+code, .mono { font-family: "IBM Plex Mono", monospace; }
